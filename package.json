@@ -1,0 +1,53 @@
+{
+  "name": "mcp-claude-filemaker",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for accessing FileMaker databases via Data API with comprehensive script discovery and execution capabilities",
+  "main": "server.js",
+  "type": "module",
+  "bin": {
+    "mcp-claude-filemaker": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "node test-server.js",
+    "docker:build": "docker build -t mcp-claude-filemaker .",
+    "docker:run": "docker run -d --env-file .env mcp-claude-filemaker"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "axios": "^1.11.0",
+    "node-cache": "^5.1.2",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "typescript": "^5.8.3",
+    "tsx": "^4.20.3",
+    "esbuild": "^0.25.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "filemaker",
+    "data-api",
+    "database",
+    "claude",
+    "ai",
+    "assistant"
+  ],
+  "author": "Community",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker#readme"
+}
