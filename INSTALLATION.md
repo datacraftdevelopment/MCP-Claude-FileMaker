@@ -25,7 +25,7 @@ This guide will walk you through setting up the MCP Claude FileMaker server step
 
 ### Option B: Clone Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker.git
+git clone https://github.com/datacraftdevelopment/MCP-Claude-FileMaker.git
 cd MCP-Claude-FileMaker
 ```
 

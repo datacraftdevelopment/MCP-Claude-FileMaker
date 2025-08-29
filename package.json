@@ -44,10 +44,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker.git"
+    "url": "https://github.com/datacraftdevelopment/MCP-Claude-FileMaker.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker/issues"
+    "url": "https://github.com/datacraftdevelopment/MCP-Claude-FileMaker/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker#readme"
+  "homepage": "https://github.com/datacraftdevelopment/MCP-Claude-FileMaker#readme"
 }

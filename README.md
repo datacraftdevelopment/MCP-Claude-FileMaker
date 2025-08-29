@@ -228,7 +228,7 @@ Each database can have:
 
 1. **Clone or Download**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/MCP-Claude-FileMaker.git
+   git clone https://github.com/datacraftdevelopment/MCP-Claude-FileMaker.git
    cd MCP-Claude-FileMaker
    ```
 
