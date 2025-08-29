@@ -365,15 +365,108 @@ docker run -d \
   mcp-claude-filemaker
 ```
 
-## 📁 FileMaker Connector
+## 📁 FileMaker Connector Extension
 
-Included in the `connectors/` directory is `filemaker-connector-v2.1.0.dxt` - a FileMaker extension that provides additional integration capabilities. This is a drag-and-drop extension file for FileMaker Pro.
+Included in the `connectors/` directory is `filemaker-connector-v2.1.0.dxt` - a powerful FileMaker extension that provides enhanced integration capabilities with Claude and the MCP server. This drag-and-drop extension simplifies the process of connecting your FileMaker databases to Claude.
 
-### Installation
-1. Open FileMaker Pro
-2. Drag `filemaker-connector-v2.1.0.dxt` onto FileMaker Pro
-3. Follow the installation prompts
-4. The connector will be available in your Extensions menu
+### What is the FileMaker Connector?
+The FileMaker Connector is a pre-built extension (`.dxt` file) that:
+- Provides a user-friendly interface for configuring database connections
+- Automatically generates the necessary server configuration
+- Includes connection testing and validation tools
+- Streamlines the setup process for non-technical users
+- Works alongside the MCP server to provide seamless Claude integration
+
+### Installation Steps
+
+#### Step 1: Install the Extension
+1. **Open FileMaker Pro** on your computer
+2. **Locate the connector file**: `connectors/filemaker-connector-v2.1.0.dxt`
+3. **Drag and drop** the `.dxt` file directly onto the FileMaker Pro application window
+4. **Follow the installation prompts** that appear
+5. **Restart FileMaker Pro** if prompted
+
+#### Step 2: Access the Connector
+After installation, the connector will be available in:
+- **Extensions menu** → FileMaker Connector
+- **Tools menu** → Extensions → FileMaker Connector
+- Or look for a "Claude Integration" or "MCP Connector" option
+
+#### Step 3: Configure Your Connection
+1. **Open the connector** from the Extensions menu
+2. **Fill in your server details**:
+   - **Server Address**: Your FileMaker Server URL (e.g., `your-server.com`)
+   - **Database Name**: The FileMaker database filename (without .fmp12)
+   - **Username/Password**: FileMaker account credentials with API access
+   - **Protocol**: Usually `https` for production servers
+   - **API Version**: Typically `v1` (FileMaker Data API version)
+
+#### Step 4: Test and Generate Configuration
+1. **Test the connection** using the built-in connection tester
+2. **Generate MCP configuration** - the connector will create the proper environment variables
+3. **Copy the generated configuration** to use in your Claude Desktop setup
+
+### Using the Generated Configuration
+
+After configuring the connector, it will generate environment variables in this format:
+```env
+FM_PROTOCOL=https
+FM_API_VERSION=v1
+FM_SSL_VERIFY=false
+FM_SERVER_YOURDB=your-server.com
+FM_DATABASE_YOURDB=YourDatabase
+FM_ACCOUNT_YOURDB=your_username
+FM_PASSWORD_YOURDB=your_password
+```
+
+You can then use these in your Claude Desktop configuration or `.env` file.
+
+### Connector Features
+
+#### Connection Management
+- **Multiple Database Support**: Configure connections to multiple FileMaker databases
+- **Credential Validation**: Test credentials before saving configuration
+- **SSL Certificate Handling**: Automatic handling of self-signed certificates
+- **Connection Status Monitoring**: Real-time connection health checks
+
+#### Configuration Generation
+- **Auto-Generate Environment Variables**: Creates properly formatted `.env` files
+- **Claude Desktop Config**: Generates ready-to-use Claude Desktop JSON configuration
+- **Export/Import Settings**: Save and share configuration templates
+- **Backup Configuration**: Keep copies of working configurations
+
+#### Advanced Features
+- **Script Discovery**: Browse available FileMaker scripts
+- **Layout Inspection**: View database schema and field definitions
+- **Permission Testing**: Verify account privileges and access levels
+- **Performance Monitoring**: Check response times and server performance
+
+### Troubleshooting the Connector
+
+**Connector Won't Install**
+- Ensure you're using FileMaker Pro 19.0 or later
+- Check that FileMaker Pro has permission to install extensions
+- Try restarting FileMaker Pro and installing again
+
+**Connection Test Fails**
+- Verify server URL is correct and accessible
+- Check that FileMaker Server Data API is enabled
+- Confirm username/password are correct and account is active
+- Test network connectivity to the FileMaker Server
+
+**Configuration Not Working**
+- Double-check generated environment variables
+- Ensure MCP server can access the same network as FileMaker Server
+- Verify Claude Desktop is using the correct configuration file path
+
+### Manual Configuration (Alternative)
+
+If you prefer not to use the connector extension, you can manually configure the MCP server by:
+1. Setting up environment variables as shown in the Configuration section above
+2. Testing connections using the MCP server's built-in connection tools
+3. Configuring Claude Desktop manually with your database details
+
+The connector simply automates this process and provides a user-friendly interface for configuration management.
 
 ## 🛠️ Development
 

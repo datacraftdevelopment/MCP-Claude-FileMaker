@@ -162,6 +162,59 @@ testConnection();
 
 Run with: `node test-connection.js`
 
+## Step 4b: FileMaker Connector Extension (Alternative Setup Method)
+
+**🎯 Quick Setup Option**: Instead of manually configuring environment variables, you can use the included FileMaker Connector extension for a user-friendly setup experience.
+
+### What is the FileMaker Connector?
+The `filemaker-connector-v2.1.0.dxt` file in the `connectors/` folder is a FileMaker extension that:
+- Provides a graphical interface for configuring your database connections
+- Automatically generates the correct environment variables
+- Tests connections before saving configuration
+- Eliminates manual configuration errors
+
+### Using the FileMaker Connector
+
+#### Step 1: Install the Extension
+1. **Open FileMaker Pro** (version 19.0 or later)
+2. **Drag and drop** `connectors/filemaker-connector-v2.1.0.dxt` onto the FileMaker Pro window
+3. **Follow the installation prompts**
+4. **Restart FileMaker Pro** if prompted
+
+#### Step 2: Configure Your Databases
+1. **Launch the connector** from Extensions menu → FileMaker Connector
+2. **Add your database(s)** by filling in:
+   - **Server Address**: `your-server.com` (without https://)
+   - **Database Name**: `YourDatabase` (filename without .fmp12)
+   - **Username**: Your FileMaker account username
+   - **Password**: Your FileMaker account password
+   - **Protocol**: Select `https` for most servers
+   - **API Version**: Leave as `v1`
+
+#### Step 3: Test and Generate
+1. **Test connection** using the built-in connection tester
+2. **Generate configuration** - the extension creates:
+   - Environment variables for `.env` file
+   - Claude Desktop JSON configuration
+   - Ready-to-use configuration snippets
+
+#### Step 4: Use Generated Configuration
+1. **Copy environment variables** to your `.env` file, OR
+2. **Copy Claude Desktop config** directly to your claude_desktop_config.json
+
+### Benefits of Using the Connector
+- ✅ **No manual typing** of configuration variables
+- ✅ **Built-in connection testing** before saving
+- ✅ **Error prevention** with validation
+- ✅ **Multiple database support** with easy management
+- ✅ **Export/import** configurations for team sharing
+
+### When to Use Manual Configuration Instead
+- You don't have FileMaker Pro available
+- You prefer command-line/text-based configuration
+- You're setting up in a server environment without GUI
+- You need to script the configuration process
+
 ## Step 5: Configure Claude Desktop
 
 ### Find Your Configuration File
