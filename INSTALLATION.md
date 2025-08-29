@@ -162,7 +162,62 @@ testConnection();
 
 Run with: `node test-connection.js`
 
-## Step 4b: FileMaker Connector Extension (Alternative Setup Method)
+## Step 4b: Understanding the Architecture
+
+### System Architecture Overview
+
+Before proceeding with alternative setup methods, it's helpful to understand the architecture of the MCP-Claude-FileMaker system:
+
+```
+Claude AI → MCP Protocol → MCP Server → FileMaker Data API → FileMaker Server
+```
+
+### Key Architectural Components
+
+#### **1. Database Discovery System**
+The server automatically discovers FileMaker databases from environment variables:
+- It scans for variables following the pattern `FM_SERVER_*`, `FM_DATABASE_*`, etc.
+- Each unique identifier (the part after the underscore) represents a separate database connection
+- You can configure unlimited database connections with different authentication methods
+
+#### **2. Dual Cache System**
+The server implements two separate caches for optimal performance:
+- **Data Cache (14 min TTL)**: Stores database metadata, layouts, script lists, and query results
+- **Session Cache (13 min TTL)**: Stores authentication tokens to minimize re-authentication
+
+This caching strategy significantly improves performance while respecting FileMaker's session timeout limits.
+
+#### **3. Authentication Manager**
+Handles the FileMaker authentication process:
+- Supports both username/password and API key authentication methods
+- Automatically caches authentication tokens for performance
+- Handles token refresh when tokens expire
+- Provides automatic retry mechanisms for authentication failures
+
+#### **4. Script Execution Engine**
+Offers comprehensive script execution capabilities:
+- Script discovery via FileMaker Data API's `/scripts` endpoint
+- Script execution with proper layout context
+- Parameter passing with URL encoding
+- Script result/error capture and handling
+
+#### **5. Security Layer**
+Handles secure communication with FileMaker Server:
+- Self-signed certificate support for development environments
+- Production-ready SSL/TLS configuration options
+- Credential isolation through environment variables
+- No persistent storage of sensitive data
+
+### Why Understanding the Architecture Matters
+
+Understanding this architecture helps you:
+1. **Configure optimally**: Set appropriate cache TTLs and connection settings
+2. **Troubleshoot effectively**: Identify which component might be causing issues
+3. **Scale appropriately**: Know how to handle multiple database connections
+4. **Secure properly**: Understand security implications and best practices
+5. **Extend functionality**: Build upon the architecture for custom needs
+
+## Step 4c: FileMaker Connector Extension (Alternative Setup Method)
 
 **🎯 Quick Setup Option**: Instead of manually configuring environment variables, you can use the included FileMaker Connector extension for a user-friendly setup experience.
 
@@ -176,13 +231,13 @@ The `filemaker-connector-v2.1.0.dxt` file in the `connectors/` folder is a FileM
 ### Using the FileMaker Connector
 
 #### Step 1: Install the Extension
-1. **Open FileMaker Pro** (version 19.0 or later)
-2. **Drag and drop** `connectors/filemaker-connector-v2.1.0.dxt` onto the FileMaker Pro window
-3. **Follow the installation prompts**
-4. **Restart FileMaker Pro** if prompted
+1. **Open Claude Desktop** on your computer
+2. **Drag and drop** `connectors/filemaker-connector-v2.1.0.dxt` onto the Claude Desktop window
+3. **Follow the installation prompts** that appear
+4. Claude Desktop will automatically integrate the FileMaker connector
 
 #### Step 2: Configure Your Databases
-1. **Launch the connector** from Extensions menu → FileMaker Connector
+1. **Access the connector** through Claude Desktop's FileMaker integration interface
 2. **Add your database(s)** by filling in:
    - **Server Address**: `your-server.com` (without https://)
    - **Database Name**: `YourDatabase` (filename without .fmp12)
