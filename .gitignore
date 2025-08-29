@@ -3,7 +3,16 @@ build/
 dist/
 .env
 .DS_Store
+.DS_Store?
 *.log
 *.tsbuildinfo
 coverage/
 .nyc_output/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
