@@ -2,7 +2,11 @@
 
 // Load environment variables directly in this file
 import dotenv from 'dotenv';
-dotenv.config({ quiet: true });
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, '.env'), quiet: true });
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -99,40 +103,45 @@ async function authenticateFileMaker(dbConfig) {
 async function makeFileMakerRequest(dbConfig, method, endpoint, data = null) {
   const token = await authenticateFileMaker(dbConfig);
   const baseURL = `${dbConfig.protocol}://${dbConfig.server}/fmi/data/${dbConfig.apiVersion}/databases/${dbConfig.database}`;
-  
-  try {
-    const response = await axios({
+
+  const sendRequest = (authToken) => {
+    const config = {
       method,
       url: `${baseURL}${endpoint}`,
-      data,
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Bearer ${authToken}`
       },
       httpsAgent
-    });
-    
-    return response.data;
+    };
+    // Only attach a body when there is data — sending "null" with
+    // Content-Type: application/json makes the Data API respond with
+    // error 1630 ("null is not valid JSON") and an empty response.
+    if (data !== null && data !== undefined) {
+      config.data = data;
+      config.headers['Content-Type'] = 'application/json';
+    }
+    return axios(config);
+  };
+
+  // FileMaker returns HTTP 200 with errors in the messages array
+  const parseResult = (result) => {
+    const fmError = result?.messages?.find(m => m.code && m.code !== '0');
+    if (fmError) {
+      throw new Error(`FileMaker error ${fmError.code}: ${fmError.message}`);
+    }
+    return result;
+  };
+
+  try {
+    return parseResult((await sendRequest(token)).data);
   } catch (error) {
     // If unauthorized, clear session and retry once
     if (error.response?.status === 401) {
       sessionCache.del(`session_${dbConfig.database}`);
       const newToken = await authenticateFileMaker(dbConfig);
-      
-      const retryResponse = await axios({
-        method,
-        url: `${baseURL}${endpoint}`,
-        data,
-        headers: {
-          'Authorization': `Bearer ${newToken}`,
-          'Content-Type': 'application/json'
-        },
-        httpsAgent
-      });
-      
-      return retryResponse.data;
+      return parseResult((await sendRequest(newToken)).data);
     }
-    
+
     throw new Error(`Request failed: ${error.response?.data?.messages?.[0]?.message || error.message}`);
   }
 }
