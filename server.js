@@ -2,7 +2,11 @@
 
 // Load environment variables directly in this file
 import dotenv from 'dotenv';
-dotenv.config({ quiet: true });
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, '.env'), quiet: true });
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
